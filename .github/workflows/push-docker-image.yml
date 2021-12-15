@@ -28,7 +28,7 @@ jobs:
 
 
 
-    name: "Build ${{ matrix.target_platforms }}"
+    name: "Build ${{ matrix.distribution }} ${{ matrix.arch }} ${{ matrix.variant }}"
     permissions:
       contents: read
       packages: write
