@@ -12,4 +12,3 @@ LABEL maintainer="Jesse N. <jesse@keplerdev.com" \
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/$S6_OVERLAY_VERSION/s6-overlay-$PLATFORM.tar.gz /tmp/s6-overlay-$PLATFORM.tar.gz
 RUN tar xvzf /tmp/s6-overlay-$PLATFORM.tar.gz -C /
-

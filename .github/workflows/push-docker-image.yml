@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         distribution: [ "alpine", "debian", "ubuntu" ]
-        arch: [ "amd64", "armhf", "arm", "aarch64", "x86" ]
+        arch: [ "amd64", "armhf", "aarch64" ]
         variant: [ "latest" ]
 
 
