@@ -72,7 +72,7 @@ jobs:
             "ghcr.io/${{ env.GHCR_LIBRARY }}/${{ matrix.distribution }}-s6-overlay-base
           tags: |
             type=raw,enable=${{ matrix.variant == 'latest' }},priority=100,value=latest
-            type=semver,enable=${{ matrix.variant == 'latest' }},priority=200,value={{major}}.{{minor}}.{{patch}}
+            type=semver,enable=${{ matrix.variant == 'latest' }},priority=200,pattern={{major}}.{{minor}}.{{patch}}
             type=semver,enable=${{ matrix.variant != 'latest' }},priority=300,pattern={{major}}.{{minor}}.{{patch}},suffix=-${{ matrix.variant }}
           flavor: latest=false
 
