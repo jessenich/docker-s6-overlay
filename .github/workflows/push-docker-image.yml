@@ -73,13 +73,10 @@ jobs:
           tags: |
             type=raw,enable=${{ matrix.variant == 'latest' }},priority=100,value=latest
             type=semver,enable=${{ matrix.variant == 'latest' }},priority=200,pattern={{major}}.{{minor}}.{{patch}}
-            type=semver,enable=${{ matrix.variant != 'latest' }},priority=300,pattern={{major}}.{{minor}}.{{patch}},suffix=-${{ matrix.variant }}
           flavor: latest=false
 
       - name: Build & Push Latest
         uses: docker/build-push-action@v2
-        env:
-          platforms: "${{ env.TARGET_PLATFORMS }}"
         with:
           context: .
           file: ./Dockerfile
@@ -89,7 +86,7 @@ jobs:
             DISTRIBUTION=${{ matrix.distribution }}
             VARIANT=${{ matrix.variant }}
             TZ=America/New_York
-          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/arm/v6,linux/x86
+          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
           pull: true
           push: true
           tags: ${{ steps.meta.outputs.tags }}
