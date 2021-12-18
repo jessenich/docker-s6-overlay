@@ -9,9 +9,9 @@ env:
   TARGET_PLATFORMS: linux/amd64,linux/arm64/v8,linux/arm/v7
   GHCR_URL: ghcr.io
   GHCR_LIBRARY: jessenich
-  GHCR_REPO: alpine
+  GHCR_REPO: s6-overlay-base
   DOCKERHUB_LIBRARY: jessenich91
-  DOCKERHUB_REPO: alpine
+  DOCKERHUB_REPO: s6-overlay-base
   LABELS: |
     maintainer=Jesse N. <jesse@keplerdev.com>
     org.opencontainers.image.author=Jesse N. <jesse@keplerdev.com>
@@ -68,11 +68,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           labels: ${{ env.LABELS }}
           images: |
-            "docker.io/${{ env.DOCKERHUB_LIBRARY }}/${{ matrix.distribution }}-s6-overlay-base
-            "ghcr.io/${{ env.GHCR_LIBRARY }}/${{ matrix.distribution }}-s6-overlay-base
+            "docker.io/${{ env.DOCKERHUB_LIBRARY }}/${{ env.DOCKERHUB_REPO }}
+            "ghcr.io/${{ env.GHCR_LIBRARY }}/${{ env.GHCR_REPO }}
           tags: |
-            type=raw,enable=${{ matrix.variant == 'latest' }},priority=100,value=latest
-            type=semver,enable=${{ matrix.variant == 'latest' }},priority=200,pattern={{major}}.{{minor}}.{{patch}}
+            type=raw,enable=${{ matrix.variant == 'latest' && matrix.platform == 'amd64' }},priority=100,value=${{ matrix.distribution }}
+            type=raw,enable=${{ matrix.variant == 'latest' }},priority=200,value=${{ matrix.distribution }}-${{ matrix.platform }}
+            type=semver,enable=${{ matrix.variant == 'latest' && matrix.platform == 'amd64' }},priority=300,pattern={{major}}.{{minor}}.{{patch}},suffix=${{ matrix.distribution }}
+            type=semver,enable=${{ matrix.variant == 'latest' }},priority=300,pattern={{major}}.{{minor}}.{{patch}},suffix=${{ matrix.distribution }}-${{ matrix.platform }}
           flavor: latest=false
 
       - name: Build & Push Latest
